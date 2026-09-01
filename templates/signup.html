@@ -1,0 +1,1 @@
+{% include 'header.html' %}<section class="page-head"><div class="container"><h1>Create your account</h1></div></section><section class="section"><div class="container" style="max-width:520px"><form method="post" class="info-box">{% csrf_token %}{{ form.as_p }}<button class="btn btn-forest w-100">Start exploring</button></form></div></section>{% include 'footer.html' %}

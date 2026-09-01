@@ -1,0 +1,187 @@
+{% include 'header.html' %}
+
+<section class="page-head">
+    <div class="container">
+        <h1>Welcome back</h1>
+        <p class="text-muted mt-2">Login karke apna dashboard access karo aur wahin se continue karo jahan chhoda tha.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container" style="max-width:520px">
+
+        <form method="post" class="info-box" id="loginForm" novalidate>
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="password-wrapper" style="position:relative;">
+                <span class="toggle-password" id="togglePassword" title="Show/Hide Password">👁️</span>
+            </div>
+
+            <div class="text-end mb-3">
+                <a href="{% url 'password_reset' %}" class="small-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-forest w-100" id="loginBtn">
+                <span id="btnText">Login</span>
+                <span id="btnSpinner" class="spinner" style="display:none;"></span>
+            </button>
+
+            <div id="formError" class="form-error" style="display:none;"></div>
+
+            <p class="text-center mt-3 mb-0">New here? <a href="{% url 'signup' %}">Create account</a></p>
+        </form>
+
+        <div class="login-features mt-4">
+            <div class="feature-item">
+                <span class="feature-icon">🔒</span>
+                <div>
+                    <h4>Secure Login</h4>
+                    <p>Tumhara data encrypted aur safe rehta hai.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚡</span>
+                <div>
+                    <h4>Fast Access</h4>
+                    <p>Ek click me apne account tak pahuncho.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🤝</span>
+                <div>
+                    <h4>24/7 Support</h4>
+                    <p>Koi issue ho toh humari team hamesha ready hai.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% include 'footer.html' %}
+
+<style>
+.login-features {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #f7f9f8;
+    padding: 14px 16px;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+.feature-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+.feature-item h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+}
+.feature-item p {
+    margin: 0;
+    font-size: 13px;
+    color: #6b6b6b;
+}
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+}
+.small-link {
+    font-size: 13px;
+}
+.form-error {
+    background: #fdecea;
+    color: #b71c1c;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: center;
+}
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.info-box {
+    animation: fadeInUp 0.4s ease;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('loginForm');
+    const btn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const formError = document.getElementById('formError');
+    const togglePassword = document.getElementById('togglePassword');
+
+    // Password field ko dhoondo (Django form.as_p se render hota hai)
+    const passwordField = form.querySelector('input[type="password"]');
+    if (passwordField && togglePassword) {
+        passwordField.parentElement.style.position = 'relative';
+        passwordField.parentElement.appendChild(togglePassword);
+        togglePassword.addEventListener('click', function () {
+            const isPassword = passwordField.type === 'password';
+            passwordField.type = isPassword ? 'text' : 'password';
+            togglePassword.textContent = isPassword ? '🙈' : '👁️';
+        });
+    }
+
+    // Basic client-side validation + loading state
+    form.addEventListener('submit', function (e) {
+        formError.style.display = 'none';
+
+        const inputs = form.querySelectorAll('input[required], input[type="text"], input[type="password"], input[type="email"]');
+        let hasEmpty = false;
+        inputs.forEach(function (input) {
+            if (!input.value.trim()) {
+                hasEmpty = true;
+            }
+        });
+
+        if (hasEmpty) {
+            e.preventDefault();
+            formError.textContent = 'Kripya sabhi fields bharein.';
+            formError.style.display = 'block';
+            return;
+        }
+
+        // Loading state dikhana (form real me submit ho raha hai)
+        btn.disabled = true;
+        btnText.textContent = 'Logging in...';
+        btnSpinner.style.display = 'inline-block';
+    });
+});
+</script>

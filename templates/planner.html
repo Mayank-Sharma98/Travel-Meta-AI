@@ -1,0 +1,985 @@
+{% include 'header.html' %}
+
+<style>
+  /* ===== New CSS added for this page (advanced styling) ===== */
+  :root {
+    --forest-dark: #1b3a2b;
+    --forest-mid: #2f6b4f;
+    --forest-light: #e9f3ec;
+    --accent-gold: #d8a94c;
+    --card-radius: 18px;
+    --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .page-head {
+    background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest-mid) 100%);
+    color: #fff;
+    padding: 64px 0 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-head::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(216, 169, 76, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .page-head::after {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(216, 169, 76, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .page-head .eyebrow {
+    display: inline-block;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+  }
+
+  .page-head h1 {
+    font-weight: 700;
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+  }
+
+  .page-head p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.05rem;
+    max-width: 560px;
+  }
+
+  .info-box {
+    background: #fff;
+    border-radius: var(--card-radius);
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(27, 58, 43, 0.08);
+    border: 1px solid rgba(27, 58, 43, 0.06);
+    transition: var(--transition-smooth);
+  }
+
+  .info-box:hover {
+    box-shadow: 0 16px 40px rgba(27, 58, 43, 0.12);
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: var(--forest-dark);
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+
+  .btn-forest {
+    background: var(--forest-mid);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: var(--transition-smooth);
+  }
+
+  .btn-forest:hover {
+    background: var(--forest-dark);
+    transform: translateY(-2px);
+    color: #fff;
+  }
+
+  .btn-forest:active {
+    transform: translateY(0);
+  }
+
+  .plan-summary h2 {
+    color: var(--forest-dark);
+    font-weight: 700;
+  }
+
+  .plan-summary .meta {
+    color: var(--forest-mid);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+
+  .day-card {
+    border-left: 3px solid var(--accent-gold);
+    padding: 14px 18px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    background: var(--forest-light);
+    transition: var(--transition-smooth);
+  }
+
+  .day-card:hover {
+    background: #dcecdf;
+    transform: translateX(4px);
+  }
+
+  .day-card h4 {
+    color: var(--forest-dark);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .day-card .day-detail {
+    font-size: 0.92rem;
+    color: #4a5b52;
+  }
+
+  .tips-block {
+    margin-top: 10px;
+  }
+
+  .tips-block h4 {
+    color: var(--forest-dark);
+    font-weight: 700;
+  }
+
+  .tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    color: #385142;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: #607668;
+  }
+
+  .empty-state h3 {
+    color: var(--forest-dark);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  /* ===== New CSS additions ===== */
+  
+  /* Feature Cards */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .feature-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(27, 58, 43, 0.06);
+    border: 1px solid rgba(27, 58, 43, 0.06);
+    transition: var(--transition-smooth);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(27, 58, 43, 0.12);
+  }
+
+  .feature-card .icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .feature-card h5 {
+    color: var(--forest-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .feature-card p {
+    color: #607668;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  /* Stats Counter */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .stat-item {
+    background: var(--forest-light);
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .stat-item .number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--forest-dark);
+  }
+
+  .stat-item .label {
+    font-size: 0.8rem;
+    color: #607668;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Testimonial */
+  .testimonial {
+    background: var(--forest-light);
+    padding: 24px;
+    border-radius: 12px;
+    margin-top: 16px;
+    border-left: 4px solid var(--accent-gold);
+  }
+
+  .testimonial p {
+    font-style: italic;
+    color: #385142;
+    margin: 0;
+  }
+
+  .testimonial .author {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--forest-dark);
+    margin-top: 8px;
+  }
+
+  /* Weather Widget */
+  .weather-widget {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--forest-light);
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+
+  .weather-widget .temp {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--forest-dark);
+  }
+
+  .weather-widget .condition {
+    color: #607668;
+  }
+
+  /* Progress Bar */
+  .progress-bar-container {
+    margin: 16px 0;
+  }
+
+  .progress-bar-container .label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #607668;
+    margin-bottom: 4px;
+  }
+
+  .progress-track {
+    height: 6px;
+    background: #e9f3ec;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--forest-mid);
+    border-radius: 3px;
+    transition: width 1s ease;
+    width: 0%;
+  }
+
+  /* Travel Mode Selector */
+  .travel-mode-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+
+  .mode-option {
+    padding: 8px 16px;
+    border: 2px solid #e9f3ec;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    font-size: 0.85rem;
+    background: #fff;
+    color: #607668;
+  }
+
+  .mode-option:hover {
+    border-color: var(--forest-mid);
+    color: var(--forest-dark);
+  }
+
+  .mode-option.active {
+    border-color: var(--forest-mid);
+    background: var(--forest-mid);
+    color: #fff;
+  }
+
+  /* Accordion */
+  .accordion-item {
+    border: 1px solid rgba(27, 58, 43, 0.06);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .accordion-header {
+    padding: 14px 18px;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: var(--forest-dark);
+    transition: var(--transition-smooth);
+  }
+
+  .accordion-header:hover {
+    background: var(--forest-light);
+  }
+
+  .accordion-header .arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .accordion-header.active .arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    padding: 0 18px 18px;
+    display: none;
+    color: #4a5b52;
+  }
+
+  .accordion-body.open {
+    display: block;
+  }
+
+  /* Floating Action Button */
+  .fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--forest-mid);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(27, 58, 43, 0.3);
+    transition: var(--transition-smooth);
+    z-index: 999;
+  }
+
+  .fab:hover {
+    transform: scale(1.1) translateY(-3px);
+    background: var(--forest-dark);
+  }
+
+  /* Toast Notification */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background: var(--forest-dark);
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1000;
+    max-width: 320px;
+  }
+
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Destination Cards */
+  .destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .dest-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid rgba(27, 58, 43, 0.06);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+  }
+
+  .dest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(27, 58, 43, 0.1);
+    border-color: var(--accent-gold);
+  }
+
+  .dest-card .emoji {
+    font-size: 2.2rem;
+  }
+
+  .dest-card h6 {
+    color: var(--forest-dark);
+    font-weight: 600;
+    margin: 6px 0 2px;
+  }
+
+  .dest-card p {
+    color: #607668;
+    font-size: 0.78rem;
+    margin: 0;
+  }
+
+  /* Quick Action Buttons */
+  .quick-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+
+  .quick-btn {
+    padding: 8px 16px;
+    background: var(--forest-light);
+    border: none;
+    border-radius: 20px;
+    color: var(--forest-dark);
+    font-weight: 500;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .quick-btn:hover {
+    background: var(--forest-mid);
+    color: #fff;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-head h1 {
+      font-size: 1.8rem;
+    }
+    .info-box {
+      padding: 20px;
+    }
+    .feature-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stats-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<section class="page-head">
+  <div class="container">
+    <div class="eyebrow">🌿 Local AI mode</div>
+    <h1>Your travel designer</h1>
+    <p>
+      Works without an API key; plug in a provider later through the service layer.
+      Experience the future of travel planning — intelligent, personalized, and completely private.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Feature Highlights -->
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">🧠</div>
+        <h5>Smart Planning</h5>
+        <p>AI-powered itinerary generation tailored to your preferences</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h5>Privacy First</h5>
+        <p>All processing happens locally — no data leaves your device</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💰</div>
+        <h5>Budget Friendly</h5>
+        <p>Real-time cost estimates in your local currency</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⏱️</div>
+        <h5>Quick Generate</h5>
+        <p>Get your complete travel plan in seconds</p>
+      </div>
+    </div>
+
+    <div class="row g-5 mt-2">
+
+      <div class="col-lg-5">
+        <form method="post" class="info-box" id="itinerary-form">
+          {% csrf_token %}
+          
+          <!-- Quick Travel Modes -->
+          <div class="travel-mode-selector" id="modeSelector">
+            <span class="mode-option active" data-mode="adventure">🏔️ Adventure</span>
+            <span class="mode-option" data-mode="relaxation">🧘 Relaxation</span>
+            <span class="mode-option" data-mode="culture">🏛️ Culture</span>
+            <span class="mode-option" data-mode="food">🍜 Food</span>
+          </div>
+          <small class="text-muted d-block mb-3" style="font-size:0.75rem;">Select a travel style to customize your itinerary</small>
+
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {{ field.errors }}
+            </div>
+          {% endfor %}
+
+          <!-- Quick Destination Suggestions -->
+          <div class="destinations-grid" id="destGrid">
+            <div class="dest-card" data-dest="goa">
+              <div class="emoji">🏖️</div>
+              <h6>Goa</h6>
+              <p>Beach getaway</p>
+            </div>
+            <div class="dest-card" data-dest="himachal">
+              <div class="emoji">🏔️</div>
+              <h6>Himachal</h6>
+              <p>Mountain retreat</p>
+            </div>
+            <div class="dest-card" data-dest="kerala">
+              <div class="emoji">🌴</div>
+              <h6>Kerala</h6>
+              <p>Backwaters</p>
+            </div>
+            <div class="dest-card" data-dest="rajasthan">
+              <div class="emoji">🏰</div>
+              <h6>Rajasthan</h6>
+              <p>Royal heritage</p>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <button type="button" class="quick-btn" id="quickWeekend">🏕️ Weekend Trip</button>
+            <button type="button" class="quick-btn" id="quickFamily">👨‍👩‍👧‍👦 Family Trip</button>
+            <button type="button" class="quick-btn" id="quickSolo">🧑 Solo Travel</button>
+          </div>
+
+          <button class="btn btn-forest w-100 mt-2" type="submit" id="generate-btn">
+            ✨ Generate itinerary
+          </button>
+        </form>
+      </div>
+
+      <div class="col-lg-7">
+        {% if plan %}
+          <div class="info-box plan-summary">
+            <h2>Your {{ plan.total }} journey</h2>
+            <p class="meta">{{ plan.distance }} · {{ plan.transport }}</p>
+
+            <!-- Weather Widget -->
+            <div class="weather-widget" id="weatherWidget">
+              <span style="font-size:2rem;">☀️</span>
+              <div>
+                <div class="temp" id="tempDisplay">28°C</div>
+                <div class="condition" id="conditionDisplay">Sunny · Perfect for travel</div>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="number">{{ plan.days|length }}</div>
+                <div class="label">Days</div>
+              </div>
+              <div class="stat-item">
+                <div class="number">₹{{ plan.total_cost|default:"0" }}</div>
+                <div class="label">Total Budget</div>
+              </div>
+              <div class="stat-item">
+                <div class="number">{{ plan.activities|default:"0" }}</div>
+                <div class="label">Activities</div>
+              </div>
+              <div class="stat-item">
+                <div class="number">{{ plan.hotels|default:"0" }}</div>
+                <div class="label">Stays</div>
+              </div>
+            </div>
+
+            <!-- Progress Bar for Completion -->
+            <div class="progress-bar-container">
+              <div class="label">
+                <span>Plan Completion</span>
+                <span id="progressLabel">100%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width:100%;"></div>
+              </div>
+            </div>
+
+            {% for day in plan.days %}
+              <hr>
+              <div class="day-card">
+                <h4>Day {{ day.number }}</h4>
+                <p class="day-detail"><b>Plan:</b> {{ day.focus }}</p>
+                <p class="day-detail">
+                  {{ day.time }} · {{ day.food }} · Est. ₹{{ day.cost }}
+                </p>
+                <!-- Activities Accordion -->
+                <div class="accordion-item mt-2">
+                  <div class="accordion-header" data-accordion="day{{ day.number }}">
+                    <span>📋 View Activities</span>
+                    <span class="arrow">▼</span>
+                  </div>
+                  <div class="accordion-body" id="day{{ day.number }}">
+                    <ul style="margin:0;padding-left:18px;">
+                      <li>Morning: {{ day.morning|default:"Explore local attractions" }}</li>
+                      <li>Afternoon: {{ day.afternoon|default:"Visit cultural landmarks" }}</li>
+                      <li>Evening: {{ day.evening|default:"Enjoy local cuisine" }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+            <hr>
+            <div class="tips-block">
+              <h4>Travel wisely</h4>
+              {% for tip in plan.tips %}
+                <p class="tip-item">✓ {{ tip }}</p>
+              {% endfor %}
+            </div>
+
+            <!-- Testimonial -->
+            <div class="testimonial">
+              <p>"This AI planner saved me hours of research. The itinerary was perfect for my budget and preferences!"</p>
+              <div class="author">— Priya S., Delhi</div>
+            </div>
+
+            <!-- Share Buttons -->
+            <div class="mt-3" style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="quick-btn" id="shareBtn">📤 Share Plan</button>
+              <button class="quick-btn" id="exportBtn">📄 Export PDF</button>
+              <button class="quick-btn" id="printBtn">🖨️ Print</button>
+            </div>
+          </div>
+        {% else %}
+          <div class="info-box empty-state">
+            <div style="font-size:4rem;margin-bottom:16px;">🗺️</div>
+            <h3>Tell us your travel rhythm</h3>
+            <p>Your personalized day-by-day plan will appear here.</p>
+            <div class="feature-grid" style="grid-template-columns:1fr 1fr;margin-top:20px;">
+              <div class="feature-card" style="padding:12px;">
+                <div style="font-size:1.5rem;">📍</div>
+                <h5 style="font-size:0.85rem;">Choose Destination</h5>
+              </div>
+              <div class="feature-card" style="padding:12px;">
+                <div style="font-size:1.5rem;">📅</div>
+                <h5 style="font-size:0.85rem;">Set Duration</h5>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Floating Action Button -->
+<button class="fab" id="fabBtn" title="Quick Tips">💡</button>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ===== New JS added for this page (advanced interactivity) =====
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('itinerary-form');
+    var btn = document.getElementById('generate-btn');
+
+    // ===== Form Submission =====
+    if (form && btn) {
+      form.addEventListener('submit', function () {
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Generating your plan...';
+        showToast('✨ Your itinerary is being crafted...');
+      });
+    }
+
+    // ===== Fade-in animation for day cards =====
+    var dayCards = document.querySelectorAll('.day-card');
+    if ('IntersectionObserver' in window && dayCards.length) {
+      dayCards.forEach(function (card) {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(12px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      });
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      dayCards.forEach(function (card) {
+        observer.observe(card);
+      });
+    }
+
+    // ===== Travel Mode Selector =====
+    var modes = document.querySelectorAll('.mode-option');
+    modes.forEach(function (mode) {
+      mode.addEventListener('click', function () {
+        modes.forEach(function (m) { m.classList.remove('active'); });
+        this.classList.add('active');
+        showToast('🌿 ' + this.textContent.trim() + ' mode selected!');
+        // Update form fields if needed
+        var destInput = document.querySelector('input[name="destination"]');
+        if (destInput) {
+          // Simulate destination change based on mode
+          var suggestions = {
+            'Adventure': 'Manali, Rishikesh, Goa',
+            'Relaxation': 'Kerala, Pondicherry, Coorg',
+            'Culture': 'Jaipur, Varanasi, Delhi',
+            'Food': 'Mumbai, Delhi, Lucknow'
+          };
+          var modeText = this.textContent.trim().replace(/[🏔️🧘🏛️🍜]/g, '').trim();
+          if (suggestions[modeText]) {
+            destInput.value = suggestions[modeText];
+          }
+        }
+      });
+    });
+
+    // ===== Destination Quick Select =====
+    var destCards = document.querySelectorAll('.dest-card');
+    destCards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var dest = this.getAttribute('data-dest');
+        var destInput = document.querySelector('input[name="destination"]');
+        if (destInput) {
+          destInput.value = this.querySelector('h6').textContent;
+          showToast('📍 Destination set to ' + this.querySelector('h6').textContent);
+        }
+      });
+    });
+
+    // ===== Quick Action Buttons =====
+    var quickWeekend = document.getElementById('quickWeekend');
+    var quickFamily = document.getElementById('quickFamily');
+    var quickSolo = document.getElementById('quickSolo');
+
+    if (quickWeekend) {
+      quickWeekend.addEventListener('click', function () {
+        var daysInput = document.querySelector('input[name="days"]');
+        var peopleInput = document.querySelector('input[name="people"]');
+        if (daysInput) daysInput.value = 2;
+        if (peopleInput) peopleInput.value = 2;
+        showToast('🏕️ Weekend trip setup! 2 days, 2 people');
+      });
+    }
+
+    if (quickFamily) {
+      quickFamily.addEventListener('click', function () {
+        var daysInput = document.querySelector('input[name="days"]');
+        var peopleInput = document.querySelector('input[name="people"]');
+        if (daysInput) daysInput.value = 5;
+        if (peopleInput) peopleInput.value = 4;
+        showToast('👨‍👩‍👧‍👦 Family trip setup! 5 days, 4 people');
+      });
+    }
+
+    if (quickSolo) {
+      quickSolo.addEventListener('click', function () {
+        var daysInput = document.querySelector('input[name="days"]');
+        var peopleInput = document.querySelector('input[name="people"]');
+        if (daysInput) daysInput.value = 3;
+        if (peopleInput) peopleInput.value = 1;
+        showToast('🧑 Solo trip setup! 3 days, 1 person');
+      });
+    }
+
+    // ===== Accordion =====
+    var accordionHeaders = document.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach(function (header) {
+      header.addEventListener('click', function () {
+        var body = document.getElementById(this.getAttribute('data-accordion'));
+        if (body) {
+          body.classList.toggle('open');
+          this.classList.toggle('active');
+          if (body.classList.contains('open')) {
+            this.querySelector('.arrow').textContent = '▲';
+          } else {
+            this.querySelector('.arrow').textContent = '▼';
+          }
+        }
+      });
+    });
+
+    // ===== Toast Notification =====
+    function showToast(message) {
+      var toast = document.getElementById('toast');
+      if (toast) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(function () {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+    }
+
+    // ===== Floating Action Button =====
+    var fab = document.getElementById('fabBtn');
+    if (fab) {
+      fab.addEventListener('click', function () {
+        var tips = [
+          '💡 Book accommodations early for best rates',
+          '💡 Pack light for easier travel',
+          '💡 Check local weather before you go',
+          '💡 Carry a power bank for your devices',
+          '💡 Learn a few local phrases',
+          '💡 Keep digital copies of important documents'
+        ];
+        var randomTip = tips[Math.floor(Math.random() * tips.length)];
+        showToast(randomTip);
+      });
+    }
+
+    // ===== Share Button =====
+    var shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function () {
+        if (navigator.share) {
+          navigator.share({
+            title: 'My Travel Itinerary',
+            text: 'Check out my personalized travel plan!',
+            url: window.location.href
+          }).catch(function() {});
+        } else {
+          showToast('📤 Copy the URL to share your plan');
+        }
+      });
+    }
+
+    // ===== Export/Print Buttons =====
+    var exportBtn = document.getElementById('exportBtn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function () {
+        showToast('📄 PDF export feature coming soon!');
+      });
+    }
+
+    var printBtn = document.getElementById('printBtn');
+    if (printBtn) {
+      printBtn.addEventListener('click', function () {
+        window.print();
+      });
+    }
+
+    // ===== Weather Simulation =====
+    var weatherConditions = [
+      { icon: '☀️', temp: '28°C', condition: 'Sunny · Perfect for travel' },
+      { icon: '⛅', temp: '24°C', condition: 'Partly cloudy · Pleasant' },
+      { icon: '🌤️', temp: '26°C', condition: 'Mostly sunny · Great weather' },
+      { icon: '🌧️', temp: '20°C', condition: 'Light rain · Carry an umbrella' },
+      { icon: '❄️', temp: '15°C', condition: 'Chilly · Pack warm clothes' }
+    ];
+
+    var weatherWidget = document.getElementById('weatherWidget');
+    if (weatherWidget) {
+      var randomWeather = weatherConditions[Math.floor(Math.random() * weatherConditions.length)];
+      var weatherIcon = weatherWidget.querySelector('span');
+      var tempDisplay = document.getElementById('tempDisplay');
+      var conditionDisplay = document.getElementById('conditionDisplay');
+      if (weatherIcon) weatherIcon.textContent = randomWeather.icon;
+      if (tempDisplay) tempDisplay.textContent = randomWeather.temp;
+      if (conditionDisplay) conditionDisplay.textContent = randomWeather.condition;
+    }
+
+    // ===== Progress Animation =====
+    var progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+      // Animate progress on load
+      setTimeout(function () {
+        progressFill.style.width = '100%';
+      }, 300);
+    }
+
+    // ===== Form Field Enhancements =====
+    // Add placeholders and autocomplete
+    var destInput = document.querySelector('input[name="destination"]');
+    if (destInput) {
+      destInput.setAttribute('placeholder', 'e.g., Goa, Manali, Kerala...');
+      destInput.setAttribute('autocomplete', 'off');
+    }
+
+    var daysInput = document.querySelector('input[name="days"]');
+    if (daysInput) {
+      daysInput.setAttribute('placeholder', 'e.g., 3');
+      daysInput.setAttribute('type', 'number');
+      daysInput.setAttribute('min', '1');
+      daysInput.setAttribute('max', '30');
+    }
+
+    var peopleInput = document.querySelector('input[name="people"]');
+    if (peopleInput) {
+      peopleInput.setAttribute('placeholder', 'e.g., 2');
+      peopleInput.setAttribute('type', 'number');
+      peopleInput.setAttribute('min', '1');
+      peopleInput.setAttribute('max', '20');
+    }
+
+    // ===== Budget Input Enhancement =====
+    var budgetInput = document.querySelector('input[name="budget"]');
+    if (budgetInput) {
+      budgetInput.setAttribute('placeholder', 'e.g., 50000');
+      budgetInput.setAttribute('type', 'number');
+      budgetInput.setAttribute('min', '1000');
+    }
+
+    console.log('🌿 Travel Designer loaded successfully!');
+  });
+</script>
+
+{% include 'footer.html' %}

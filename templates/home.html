@@ -1,0 +1,761 @@
+{% include 'header.html' %}
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="eyebrow">
+                India, intelligently explored
+            </div>
+
+            <h1>
+                Explore more.
+                <br>
+                Travel smarter.
+            </h1>
+
+            <p>
+                Plan meaningful Indian journeys with AI-powered itineraries,
+                smart budgets, local experiences, and safety-first travel guidance.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a class="btn btn-gold btn-lg" href="{% url 'planner' %}">
+                    <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+                    Plan My Trip
+                </a>
+
+                <a class="btn btn-outline-light btn-lg rounded-pill px-4" href="{% url 'explore' %}">
+                    Explore Destinations
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+
+            <div class="hero-trust mt-5">
+                <span>
+                    <i class="fa-solid fa-leaf"></i>
+                    Responsible Tourism
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-shield-heart"></i>
+                    Safety-Aware Planning
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    India-First Discovery
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <div class="container">
+        <div class="quick-actions-panel">
+            <a href="{% url 'planner' %}">
+                <i class="fa-solid fa-route"></i>
+
+                <span>
+                    <b>AI Itinerary</b>
+                    <small>Build a day-by-day travel plan</small>
+                </span>
+            </a>
+
+            <a href="{% url 'budget' %}">
+                <i class="fa-solid fa-wallet"></i>
+
+                <span>
+                    <b>Budget Calculator</b>
+                    <small>Plan every rupee confidently</small>
+                </span>
+            </a>
+
+            <a href="{% url 'map' %}">
+                <i class="fa-solid fa-map-location-dot"></i>
+
+                <span>
+                    <b>Interactive Map</b>
+                    <small>Explore destinations visually</small>
+                </span>
+            </a>
+
+            <a href="{% url 'safety' %}">
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>
+                    <b>Safety Companion</b>
+                    <small>Keep emergency essentials nearby</small>
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section how-it-works-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="eyebrow text-success">
+                How TravelMate works
+            </div>
+
+            <h2>
+                Three steps to your next trip
+            </h2>
+
+            <p class="mx-auto">
+                No spreadsheets, no endless tabs. Just tell us where you want
+                to go and let the planner handle the rest.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="step-card h-100">
+                    <span class="step-number">01</span>
+
+                    <h3 class="h5 mt-3">
+                        Tell us your trip
+                    </h3>
+
+                    <p class="text-muted small">
+                        Pick a destination, your travel dates, and the kind
+                        of experience you are looking for.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="step-card h-100">
+                    <span class="step-number">02</span>
+
+                    <h3 class="h5 mt-3">
+                        Get an instant plan
+                    </h3>
+
+                    <p class="text-muted small">
+                        Our planner builds a day-wise itinerary with
+                        attractions, food stops, timing, and cost estimates.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="step-card h-100">
+                    <span class="step-number">03</span>
+
+                    <h3 class="h5 mt-3">
+                        Save and travel
+                    </h3>
+
+                    <p class="text-muted small">
+                        Log in to save your itinerary to My Trips, track
+                        your budget, and travel with peace of mind.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section destinations-section">
+    <div class="container">
+        <div class="section-heading d-flex justify-content-between align-items-end flex-wrap gap-3 mb-5">
+            <div>
+                <div class="eyebrow text-success">
+                    Curated for you
+                </div>
+
+                <h2>
+                    Popular escapes, made effortless
+                </h2>
+
+                <p>
+                    From peaceful hill mornings to vibrant heritage lanes,
+                    discover a destination that feels right for your next journey.
+                </p>
+            </div>
+
+            <a class="text-link" href="{% url 'explore' %}">
+                View all destinations
+                <i class="fa-solid fa-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for d in destinations %}
+                <div class="col-md-6 col-lg-3">
+                    <article class="card destination-card h-100">
+                        <div class="image-wrap">
+                            <img
+                                class="destination-img"
+                                src="{{ d.image }}"
+                                alt="{{ d.name }}"
+                                loading="lazy"
+                            >
+
+                            <span class="rating-pill">
+                                <i class="fa-solid fa-star"></i>
+                                {{ d.rating }}
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="tag">
+                                {{ d.category }}
+                            </span>
+
+                            <h3 class="h4 mt-3 mb-1">
+                                {{ d.name }}
+                            </h3>
+
+                            <p class="text-muted small mb-3">
+                                <i class="fa-solid fa-location-dot me-1"></i>
+                                {{ d.state }}
+                            </p>
+
+                            <p class="small text-muted">
+                                {{ d.description|truncatewords:12 }}
+                            </p>
+
+                            <div class="card-bottom">
+                                <span>
+                                    From <b>₹{{ d.budget }}</b>
+                                </span>
+
+                                <span class="explore-circle">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                            </div>
+
+                            <a
+                                href="{% url 'destination_detail' d.pk %}"
+                                class="stretched-link"
+                                aria-label="View {{ d.name }} details"
+                            ></a>
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-sand impact-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="eyebrow text-success">
+                Hackathon Impact Dashboard
+            </div>
+
+            <h2>
+                Everything a better trip needs, in one place
+            </h2>
+
+            <p class="mx-auto">
+                These are demo project statistics created to show the scope
+                and impact of TravelMate AI.
+            </p>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-6 col-lg-3">
+                <div class="metric">
+                    <i class="fa-solid fa-earth-asia"></i>
+                    <strong>50+</strong>
+                    <span>Demo Destinations</span>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="metric">
+                    <i class="fa-solid fa-utensils"></i>
+                    <strong>100+</strong>
+                    <span>Local Experiences</span>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="metric">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <strong>AI</strong>
+                    <span>Trip Planning</span>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="metric">
+                    <i class="fa-solid fa-shield-heart"></i>
+                    <strong>Safe</strong>
+                    <span>Travel Assistance</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section planner-preview">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="planner-visual">
+                    <div class="planner-card planner-card-main">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="tag">
+                                AI TRIP PLAN
+                            </span>
+
+                            <i class="fa-solid fa-sparkles text-warning"></i>
+                        </div>
+
+                        <h3>
+                            Ranchi in 3 Days
+                        </h3>
+
+                        <div class="itinerary-line">
+                            <span>01</span>
+
+                            <div>
+                                <b>Waterfalls & Local Food</b>
+                                <small>9:00 AM · ₹1,200 estimate</small>
+                            </div>
+                        </div>
+
+                        <div class="itinerary-line">
+                            <span>02</span>
+
+                            <div>
+                                <b>Nature Trail & Culture</b>
+                                <small>10:00 AM · ₹950 estimate</small>
+                            </div>
+                        </div>
+
+                        <div class="itinerary-line">
+                            <span>03</span>
+
+                            <div>
+                                <b>Slow Morning & Return</b>
+                                <small>8:30 AM · ₹700 estimate</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="planner-card planner-card-floating">
+                        <i class="fa-solid fa-wallet"></i>
+                        <b>₹5,000</b>
+                        <small>Smart Budget</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="eyebrow text-success">
+                    Your trip, thoughtfully composed
+                </div>
+
+                <h2>
+                    A calmer way to plan every day
+                </h2>
+
+                <p>
+                    Tell TravelMate where you are going, how long you have,
+                    and the type of experience you want. Our local AI demo
+                    creates a useful travel itinerary in seconds.
+                </p>
+
+                <div class="feature-checks">
+                    <p>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Day-wise attraction, food, timing, and cost suggestions
+                    </p>
+
+                    <p>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Works without an API key and is ready for future AI integration
+                    </p>
+
+                    <p>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Save your itinerary in My Trips after login
+                    </p>
+                </div>
+
+                <a class="btn btn-forest mt-2" href="{% url 'planner' %}">
+                    Create My Itinerary
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section why-us-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="eyebrow text-success">
+                Why travellers choose us
+            </div>
+
+            <h2>
+                Built for how India actually travels
+            </h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="why-card h-100">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                    <h3 class="h6 mt-3">
+                        Budget-first planning
+                    </h3>
+
+                    <p class="text-muted small">
+                        Every itinerary comes with a realistic cost estimate,
+                        so there are no surprises on the road.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="why-card h-100">
+                    <i class="fa-solid fa-mountain-sun"></i>
+
+                    <h3 class="h6 mt-3">
+                        Local, not generic
+                    </h3>
+
+                    <p class="text-muted small">
+                        Suggestions are rooted in local food, culture, and
+                        hidden spots, not copy-pasted tourist lists.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="why-card h-100">
+                    <i class="fa-solid fa-people-group"></i>
+
+                    <h3 class="h6 mt-3">
+                        Community rated
+                    </h3>
+
+                    <p class="text-muted small">
+                        Destinations carry ratings from fellow travellers so
+                        you know what to expect before you go.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="why-card h-100">
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <h3 class="h6 mt-3">
+                        Safety-aware guidance
+                    </h3>
+
+                    <p class="text-muted small">
+                        Get emergency essentials and safety tips alongside
+                        every itinerary, not as an afterthought.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section experience-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="experience-panel experience-main">
+                    <div class="eyebrow">
+                        Go beyond the checklist
+                    </div>
+
+                    <h2>
+                        Travel deeper, leave lighter.
+                    </h2>
+
+                    <p>
+                        Discover local food, festivals, heritage, handicrafts,
+                        hidden destinations, and eco-friendly travel choices
+                        that make every journey more meaningful.
+                    </p>
+
+                    <a class="btn btn-gold" href="{% url 'explore' %}">
+                        Discover Hidden Gems
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="weather-card h-100">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="eyebrow text-success">
+                                Demo Weather
+                            </div>
+
+                            <h3>
+                                Today in {{ weather.place }}
+                            </h3>
+                        </div>
+
+                        <i class="fa-solid fa-cloud-sun weather-icon"></i>
+                    </div>
+
+                    <div class="weather-temperature">
+                        {{ weather.temperature }}
+                    </div>
+
+                    <p>
+                        {{ weather.condition }}
+                    </p>
+
+                    <div class="weather-details">
+                        <span>
+                            <i class="fa-solid fa-droplet"></i>
+                            {{ weather.humidity }}
+                        </span>
+
+                        <span>
+                            <i class="fa-solid fa-wind"></i>
+                            {{ weather.wind }}
+                        </span>
+                    </div>
+
+                    <small>
+                        Connect a weather API through the Django service layer
+                        when live weather data is needed.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-sand testimonials-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="eyebrow text-success">
+                Loved by travellers
+            </div>
+
+            <h2>
+                What people are saying
+            </h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card h-100">
+                    <i class="fa-solid fa-quote-left"></i>
+
+                    <p>
+                        The 3-day Ranchi plan saved me hours of research.
+                        Every stop, timing, and cost estimate was spot on.
+                    </p>
+
+                    <div class="testimonial-author">
+                        <b>Ananya R.</b>
+                        <span>Solo Traveller, Bengaluru</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="testimonial-card h-100">
+                    <i class="fa-solid fa-quote-left"></i>
+
+                    <p>
+                        The budget calculator kept our family trip on track.
+                        We finally travelled without money stress.
+                    </p>
+
+                    <div class="testimonial-author">
+                        <b>Rohit &amp; Family</b>
+                        <span>Weekend Explorers, Pune</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="testimonial-card h-100">
+                    <i class="fa-solid fa-quote-left"></i>
+
+                    <p>
+                        Safety Companion gave me the confidence to plan a
+                        trip to a place I had never visited before.
+                    </p>
+
+                    <div class="testimonial-author">
+                        <b>Meera S.</b>
+                        <span>First-Time Visitor, Jamshedpur</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section faq-section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <div class="eyebrow text-success">
+                    Good to know
+                </div>
+
+                <h2>
+                    Frequently asked questions
+                </h2>
+
+                <p class="text-muted">
+                    Still curious about something? Reach out to our team
+                    and we will be happy to help.
+                </p>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeadingOne">
+                            <button
+                                class="accordion-button"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faqCollapseOne"
+                                aria-expanded="true"
+                                aria-controls="faqCollapseOne"
+                            >
+                                Do I need an account to plan a trip?
+                            </button>
+                        </h3>
+
+                        <div
+                            id="faqCollapseOne"
+                            class="accordion-collapse collapse show"
+                            aria-labelledby="faqHeadingOne"
+                            data-bs-parent="#faqAccordion"
+                        >
+                            <div class="accordion-body">
+                                No. You can build and preview an itinerary
+                                without signing in. Create a free account
+                                only when you want to save it to My Trips.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeadingTwo">
+                            <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faqCollapseTwo"
+                                aria-expanded="false"
+                                aria-controls="faqCollapseTwo"
+                            >
+                                Is TravelMate AI free to use?
+                            </button>
+                        </h3>
+
+                        <div
+                            id="faqCollapseTwo"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="faqHeadingTwo"
+                            data-bs-parent="#faqAccordion"
+                        >
+                            <div class="accordion-body">
+                                Yes. TravelMate AI is a free demo project.
+                                Planning, budgeting, and exploring destinations
+                                does not require any payment.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeadingThree">
+                            <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faqCollapseThree"
+                                aria-expanded="false"
+                                aria-controls="faqCollapseThree"
+                            >
+                                Does the itinerary use live AI?
+                            </button>
+                        </h3>
+
+                        <div
+                            id="faqCollapseThree"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="faqHeadingThree"
+                            data-bs-parent="#faqAccordion"
+                        >
+                            <div class="accordion-body">
+                                The current planner runs on local demo logic
+                                and does not require an API key. It is built
+                                so a live AI service can be plugged in later.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeadingFour">
+                            <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faqCollapseFour"
+                                aria-expanded="false"
+                                aria-controls="faqCollapseFour"
+                            >
+                                Can I use the Safety Companion for any destination?
+                            </button>
+                        </h3>
+
+                        <div
+                            id="faqCollapseFour"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="faqHeadingFour"
+                            data-bs-parent="#faqAccordion"
+                        >
+                            <div class="accordion-body">
+                                Yes. The Safety Companion works alongside any
+                                itinerary and surfaces general emergency
+                                essentials and travel-safety guidance.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section final-cta">
+    <div class="container text-center">
+        <div class="eyebrow">
+            The journey starts here
+        </div>
+
+        <h2>
+            Less scrolling. More exploring.
+        </h2>
+
+        <p>
+            Build your next India itinerary with a smarter travel companion.
+        </p>
+
+        <a class="btn btn-gold btn-lg" href="{% url 'signup' %}">
+            Start Planning Free
+            <i class="fa-solid fa-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>
+
+{% include 'footer.html' %}

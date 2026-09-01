@@ -1,0 +1,330 @@
+{% include 'header.html' %}
+
+<section class="page-head explore-hero">
+    <div class="explore-hero-bg">
+        <img
+            src="https://source.unsplash.com/1600x700/?india,travel,landscape"
+            alt="India travel landscape"
+            loading="lazy"
+        >
+        <div class="explore-hero-overlay"></div>
+    </div>
+
+    <div class="container">
+        <div class="eyebrow">
+            Discover India
+        </div>
+
+        <h1>
+            Find your next story
+        </h1>
+
+        <p class="explore-hero-sub">
+            From misty hill towns to sunlit coastlines, browse destinations
+            picked for every kind of traveller and every kind of mood.
+        </p>
+    </div>
+</section>
+
+<section class="section categories-strip">
+    <div class="container">
+        <div class="text-center mb-4">
+            <div class="eyebrow text-success">
+                Browse by mood
+            </div>
+
+            <h2>
+                What kind of trip are you craving?
+            </h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-6 col-md-3">
+                <a href="?category=Hill Station" class="mood-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?himalayas,hills"
+                        alt="Hill Stations"
+                        loading="lazy"
+                    >
+                    <span>
+                        <i class="fa-solid fa-mountain"></i>
+                        Hill Stations
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a href="?category=Beach" class="mood-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?india,beach"
+                        alt="Beaches"
+                        loading="lazy"
+                    >
+                    <span>
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                        Beaches
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a href="?category=Heritage" class="mood-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?india,heritage,temple"
+                        alt="Heritage"
+                        loading="lazy"
+                    >
+                    <span>
+                        <i class="fa-solid fa-landmark"></i>
+                        Heritage
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a href="?category=Wildlife" class="mood-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?india,wildlife,forest"
+                        alt="Wildlife"
+                        loading="lazy"
+                    >
+                    <span>
+                        <i class="fa-solid fa-paw"></i>
+                        Wildlife
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="search-panel mb-5">
+            <div class="eyebrow text-success mb-2">
+                Refine your search
+            </div>
+
+            <form class="row g-2">
+                <div class="col-md-5">
+                    <input
+                        class="form-control"
+                        name="q"
+                        value="{{ request.GET.q }}"
+                        placeholder="Search places, states or moods"
+                    >
+                </div>
+
+                <div class="col-md">
+                    <select class="form-select" name="category">
+                        <option value="">
+                            All categories
+                        </option>
+
+                        {% for x in categories %}
+                            <option {% if request.GET.category == x %}selected{% endif %}>
+                                {{ x }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md">
+                    <select class="form-select" name="state">
+                        <option value="">
+                            All states
+                        </option>
+
+                        {% for x in states %}
+                            <option {% if request.GET.state == x %}selected{% endif %}>
+                                {{ x }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-auto">
+                    <button class="btn btn-forest w-100">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-4">
+            <h2 class="h4 mb-0">
+                {% if destinations %}
+                    Showing {{ destinations|length }} destination{{ destinations|length|pluralize }}
+                {% else %}
+                    All destinations
+                {% endif %}
+            </h2>
+
+            <span class="text-muted small">
+                <i class="fa-solid fa-sliders me-1"></i>
+                Filtered live from your search
+            </span>
+        </div>
+
+        <div class="row g-4">
+            {% for d in destinations %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 explore-card">
+                        <div class="image-wrap">
+                            <img
+                                class="destination-img"
+                                src="{{ d.image }}"
+                                alt="{{ d.name }}"
+                                loading="lazy"
+                            >
+
+                            <span class="rating-pill">
+                                <i class="fa-solid fa-star"></i>
+                                {{ d.rating }}
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="tag">
+                                {{ d.category }}
+                            </span>
+
+                            <h3 class="mt-3">
+                                {{ d.name }}
+                            </h3>
+
+                            <p class="text-muted">
+                                <i class="fa-solid fa-location-dot me-1"></i>
+                                {{ d.state }} · ★ {{ d.rating }}
+                            </p>
+
+                            <p>
+                                {{ d.description|truncatewords:14 }}
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <b>
+                                    ₹{{ d.budget }}
+                                </b>
+
+                                <a
+                                    class="btn btn-sm btn-forest"
+                                    href="{% url 'destination_detail' d.pk %}"
+                                >
+                                    View details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state text-center">
+                        <img
+                            src="https://source.unsplash.com/500x350/?compass,map,travel"
+                            alt="No results"
+                            loading="lazy"
+                        >
+
+                        <h3 class="h5 mt-4">
+                            No destinations matched
+                        </h3>
+
+                        <p class="text-muted">
+                            Try a wider search, or clear a filter to see more places.
+                        </p>
+
+                        <a href="{% url 'explore' %}" class="btn btn-outline-forest btn-sm mt-2">
+                            Clear filters
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-sand states-strip">
+    <div class="container">
+        <div class="text-center mb-4">
+            <div class="eyebrow text-success">
+                Popular states
+            </div>
+
+            <h2>
+                Explore by region
+            </h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-6 col-md-3">
+                <a href="?state=Rajasthan" class="state-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?rajasthan,fort"
+                        alt="Rajasthan"
+                        loading="lazy"
+                    >
+                    <span>Rajasthan</span>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a href="?state=Kerala" class="state-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?kerala,backwaters"
+                        alt="Kerala"
+                        loading="lazy"
+                    >
+                    <span>Kerala</span>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a href="?state=Himachal Pradesh" class="state-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?himachal,mountains"
+                        alt="Himachal Pradesh"
+                        loading="lazy"
+                    >
+                    <span>Himachal Pradesh</span>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a href="?state=Jharkhand" class="state-card">
+                    <img
+                        src="https://source.unsplash.com/400x300/?jharkhand,waterfall"
+                        alt="Jharkhand"
+                        loading="lazy"
+                    >
+                    <span>Jharkhand</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section explore-cta">
+    <div class="container text-center">
+        <div class="eyebrow">
+            Can't decide?
+        </div>
+
+        <h2>
+            Let the AI planner pick for you
+        </h2>
+
+        <p>
+            Answer a few quick questions and get a ready-made itinerary
+            in seconds.
+        </p>
+
+        <a class="btn btn-gold btn-lg" href="{% url 'planner' %}">
+            <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+            Try the AI Planner
+        </a>
+    </div>
+</section>
+
+{% include 'footer.html' %}
