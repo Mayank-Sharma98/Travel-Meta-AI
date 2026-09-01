@@ -21,7 +21,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
-.env.example
+.env.*
+!.env.example
 uploads/rag-inbox/*
 !uploads/rag-inbox/.gitkeep
 scripts/output/*
